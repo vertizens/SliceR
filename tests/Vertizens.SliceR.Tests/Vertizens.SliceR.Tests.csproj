@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SliceR\Vertizens.SliceR.csproj" />
+    <ProjectReference Include="..\..\src\Vertizens.SliceR\Vertizens.SliceR.csproj" />
   </ItemGroup>
 
   <ItemGroup>
