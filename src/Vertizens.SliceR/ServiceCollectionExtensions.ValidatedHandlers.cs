@@ -24,10 +24,10 @@ public static partial class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddSliceRValidatorProxy(this IServiceCollection services)
+    public static IServiceCollection AddSliceRValidatorProxy(this IServiceCollection services, Func<Type, Type, bool>? filter = null)
     {
-        services.AddServiceProxy(typeof(DefaultValidatorProxyValidatedHandler<>));
-        services.AddServiceProxy(typeof(DefaultValidatorProxyValidatedHandler<,>));
+        services.AddServiceProxy(filter, typeof(DefaultValidatorProxyValidatedHandler<>));
+        services.AddServiceProxy(filter, typeof(DefaultValidatorProxyValidatedHandler<,>));
 
         return services;
     }

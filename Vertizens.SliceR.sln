@@ -17,6 +17,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vertizens.SliceR.Tests", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vertizens.SliceR", "src\Vertizens.SliceR\Vertizens.SliceR.csproj", "{72C2DFCE-53DD-4073-B197-F5C596E049C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{B3E85530-2D24-4974-9E38-AB9616E00FD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "samples\Benchmark\Benchmark.csproj", "{FC6800E1-9DE5-41A3-9239-FBD414EB14A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmark.Results", "Benchmark.Results", "{331B769A-7CC3-4BB8-BB5B-CCB8915D16B5}"
+	ProjectSection(SolutionItems) = preProject
+		samples\Benchmark.Results\Benchmark.MediatRBenchmarkHandler-report-github.md = samples\Benchmark.Results\Benchmark.MediatRBenchmarkHandler-report-github.md
+		samples\Benchmark.Results\Benchmark.SliceRBenchmarkHandler-report-github.md = samples\Benchmark.Results\Benchmark.SliceRBenchmarkHandler-report-github.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +41,10 @@ Global
 		{72C2DFCE-53DD-4073-B197-F5C596E049C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72C2DFCE-53DD-4073-B197-F5C596E049C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72C2DFCE-53DD-4073-B197-F5C596E049C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6800E1-9DE5-41A3-9239-FBD414EB14A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6800E1-9DE5-41A3-9239-FBD414EB14A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6800E1-9DE5-41A3-9239-FBD414EB14A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6800E1-9DE5-41A3-9239-FBD414EB14A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +52,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8273D5B1-5134-4FC6-85D5-3A870C04BEBE} = {C42C3E78-4373-473A-BFF7-2396E7E5C1EE}
 		{72C2DFCE-53DD-4073-B197-F5C596E049C9} = {12E77040-CC78-4879-A399-362970C59375}
+		{FC6800E1-9DE5-41A3-9239-FBD414EB14A3} = {B3E85530-2D24-4974-9E38-AB9616E00FD7}
+		{331B769A-7CC3-4BB8-BB5B-CCB8915D16B5} = {B3E85530-2D24-4974-9E38-AB9616E00FD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9476250F-ED83-4D7F-B8A0-7BC5DED522EB}
