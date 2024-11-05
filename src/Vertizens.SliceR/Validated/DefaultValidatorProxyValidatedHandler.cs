@@ -1,7 +1,7 @@
 ﻿namespace Vertizens.SliceR.Validated;
 internal class DefaultValidatorProxyValidatedHandler<TRequest, TResult>(
     IValidatedHandler<TRequest, TResult> _nextHandler,
-    IModelValidator _modelValidator
+    IModelValidator<TRequest> _modelValidator
     ) : IValidatedHandler<TRequest, TResult>
 {
     public async Task<ValidatedResult<TResult>> Handle(TRequest request, CancellationToken cancellationToken = default)
@@ -19,7 +19,7 @@ internal class DefaultValidatorProxyValidatedHandler<TRequest, TResult>(
 
 internal class DefaultValidatorProxyValidatedHandler<TRequest>(
     IValidatedHandler<TRequest> _nextHandler,
-    IModelValidator _modelValidator
+    IModelValidator<TRequest> _modelValidator
     ) : IValidatedHandler<TRequest>
 {
     public async Task<ValidatedResult> Handle(TRequest request, CancellationToken cancellationToken = default)

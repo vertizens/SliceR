@@ -1,7 +1,5 @@
 ﻿namespace Vertizens.SliceR.Validated;
-public interface IModelValidator
+public interface IModelValidator<TModel>
 {
-    Task<ValidatedResult> Validate<TModel>(TModel model, CancellationToken cancellationToken = default);
-
-    Task<ValidatedResult<TResult>> Validate<TModel, TResult>(TModel model, CancellationToken cancellationToken = default);
+    Task<ValidatedResult> Validate(TModel model, CancellationToken cancellationToken = default);
 }
