@@ -4,7 +4,7 @@ using Vertizens.TypeMapper;
 namespace Vertizens.SliceR.Validated;
 public class InsertValidatedHandler<TInsertRequest, TEntity>(
     IHandler<Insert<TEntity>, TEntity> _handler,
-    ITypeMapper _typeMapper
+    ITypeMapper<TInsertRequest, TEntity> _typeMapper
     ) : IValidatedHandler<Insert<TInsertRequest>, TEntity>
     where TEntity : class, new()
 {
@@ -15,13 +15,17 @@ public class InsertValidatedHandler<TInsertRequest, TEntity>(
 
     protected virtual TEntity Map(TInsertRequest request)
     {
-        return _typeMapper.Map<TInsertRequest, TEntity>(request);
+        var entity = new TEntity();
+        _typeMapper.Map(request, entity);
+        return entity;
     }
 }
 
-public class InsertValidatedHandler<TInsertRequest, TDomain, TEntity>(
+public class InsertValidatedHandler<TInsertRequest, TDomain, TKey, TEntity>(
     IHandler<Insert<TEntity>, TEntity> _handler,
-    ITypeMapper _typeMapper
+    ITypeMapper<TInsertRequest, TEntity> _typeMapper,
+    IEntityKeyReader<TKey, TEntity> _entityKeyReader,
+    IHandler<ByKey<TKey>, TDomain?> _getDomainHandler
     ) : IValidatedHandler<Insert<TInsertRequest>, TDomain>
     where TEntity : class, new()
     where TDomain : class, new()
@@ -30,15 +34,14 @@ public class InsertValidatedHandler<TInsertRequest, TDomain, TEntity>(
     {
         var entityInserted = await _handler.Handle(new Insert<TEntity>(Map(request.Domain)), cancellationToken);
 
-        return Map(entityInserted);
+        var key = _entityKeyReader.ReadKey(entityInserted);
+        return (await _getDomainHandler.Handle(key!, cancellationToken))!;
     }
 
     protected virtual TEntity Map(TInsertRequest request)
     {
-        return _typeMapper.Map<TInsertRequest, TEntity>(request);
-    }
-    protected virtual TDomain Map(TEntity entity)
-    {
-        return _typeMapper.Map<TEntity, TDomain>(entity);
+        var entity = new TEntity();
+        _typeMapper.Map(request, entity);
+        return entity;
     }
 }
