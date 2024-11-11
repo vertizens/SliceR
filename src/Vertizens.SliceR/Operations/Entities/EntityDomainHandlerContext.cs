@@ -7,5 +7,5 @@ public class EntityDomainHandlerContext
     public required EntityDefinition EntityDefinition { get; set; }
     public required Type DomainType { get; set; }
     public required Type RequestType { get; set; }
-    public required Type ResponseType { get; set; }
+    public required Type ResultType { get; set; }
 }
