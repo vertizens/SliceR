@@ -7,6 +7,10 @@ public class ByKeyValidatedHandler<TKey, TEntity>(
 {
     public async Task<ValidatedResult<TEntity?>> Handle(ByKey<TKey> request, CancellationToken cancellationToken)
     {
-        return await _handler.Handle(request, cancellationToken);
+        var entity = await _handler.Handle(request, cancellationToken);
+        return new ValidatedResult<TEntity?>(entity)
+        {
+            IsNotFound = entity == null
+        };
     }
 }
