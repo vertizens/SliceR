@@ -1,6 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Vertizens.SliceR.Operations;
+
+/// <summary>
+/// Used to provide context for a <see cref="IEntityDomainHandlerRegistrar"/>
+/// </summary>
 public class EntityDomainHandlerContext
 {
     public required IServiceCollection Services { get; set; }
