@@ -6,10 +6,21 @@
 /// <typeparam name="TEntity">Type of entity to update</typeparam>
 public class Update<TEntity>(TEntity _entity)
 {
+    /// <summary>
+    /// Entity to update
+    /// </summary>
     public TEntity Entity { get { return _entity; } }
 
+    /// <summary>
+    /// Implicitly convert entity to Update operation with entity instance
+    /// </summary>
+    /// <param name="entity">entity instance</param>
     public static implicit operator Update<TEntity>(TEntity entity) => new(entity);
 
+    /// <summary>
+    /// Implicitly convert Update operation to the entity instance used for update
+    /// </summary>
+    /// <param name="update">Update operation</param>
     public static implicit operator TEntity(Update<TEntity> update) => update.Entity;
 }
 
@@ -22,6 +33,13 @@ public class Update<TEntity>(TEntity _entity)
 /// <param name="_domain">Domain instance to map onto entity</param>
 public class Update<TKey, TDomain>(TKey _key, TDomain _domain)
 {
+    /// <summary>
+    /// Domain instance to map to entity for an update
+    /// </summary>
     public TDomain Domain { get { return _domain; } }
+
+    /// <summary>
+    /// Key value used to find existing entity
+    /// </summary>
     public TKey Key { get { return _key; } }
 }

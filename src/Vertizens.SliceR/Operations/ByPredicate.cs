@@ -11,7 +11,13 @@ namespace Vertizens.SliceR.Operations;
 /// <param name="_predicate">Expression used to filter a domain set</param>
 public class ByPredicate<TFilter, TEntity>(TFilter _filter, Expression<Func<TEntity, TFilter, bool>> _predicate)
 {
+    /// <summary>
+    /// The filter instance to use in predicate
+    /// </summary>
     public TFilter Filter { get { return _filter; } }
 
+    /// <summary>
+    /// The predicate expression to use for a query
+    /// </summary>
     internal Expression<Func<TEntity, TFilter, bool>> Predicate { get { return _predicate; } }
 }

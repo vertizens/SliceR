@@ -3,6 +3,10 @@ using System.Reflection;
 using Vertizens.ServiceProxy;
 
 namespace Vertizens.SliceR;
+
+/// <summary>
+/// Exentsions for ServiceCollection to register services
+/// </summary>
 public static partial class ServiceCollectionExtensions
 {
     /// <summary>
