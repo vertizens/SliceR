@@ -14,7 +14,7 @@ namespace Vertizens.SliceR.Validated;
 /// <param name="_typeMapper"></param>
 public class UpdateValidatedHandler<TKey, TUpdateRequest, TEntity>(
     IHandler<Update<TEntity>, TEntity> _updateHandler,
-    IHandler<ByKey<TKey>, TEntity?> _getHandler,
+    IHandler<ByKeyForUpdate<TKey, TUpdateRequest>, TEntity?> _getHandler,
     ITypeMapper<TUpdateRequest, TEntity> _typeMapper
     ) : IValidatedHandler<Update<TKey, TUpdateRequest>, TEntity>
     where TEntity : class, new()
@@ -63,7 +63,7 @@ public class UpdateValidatedHandler<TKey, TUpdateRequest, TEntity>(
 /// <param name="_typeMapper">Maps update request to the existing entity</param>
 public class UpdateValidatedHandler<TKey, TUpdateRequest, TDomain, TEntity>(
     IHandler<Update<TEntity>, TEntity> _updateHandler,
-    IHandler<ByKey<TKey>, TEntity?> _getEntityHandler,
+    IHandler<ByKeyForUpdate<TKey, TUpdateRequest>, TEntity?> _getEntityHandler,
     IHandler<ByKey<TKey>, TDomain?> _getDomainHandler,
     ITypeMapper<TUpdateRequest, TEntity> _typeMapper
     ) : IValidatedHandler<Update<TKey, TUpdateRequest>, TDomain>
