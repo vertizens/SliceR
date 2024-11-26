@@ -27,16 +27,27 @@ public class UpdateValidatedHandler<TKey, TUpdateRequest, TEntity>(
     /// <returns></returns>
     public async Task<ValidatedResult<TEntity>> Handle(Update<TKey, TUpdateRequest> request, CancellationToken cancellationToken = default)
     {
-        var existingEntity = await _getHandler.Handle(request.Key, cancellationToken);
+        var existingEntity = await Get(request.Key, cancellationToken);
         var result = new ValidatedResult<TEntity> { IsNotFound = existingEntity == null };
 
         if (!result.IsNotFound)
         {
             Map(request.Domain, existingEntity!);
-            result = await _updateHandler.Handle(new Update<TEntity>(existingEntity!), cancellationToken);
+            result = await Update(new Update<TEntity>(existingEntity!), cancellationToken);
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Gets the existing entity instance
+    /// </summary>
+    /// <param name="key">TKey of entity</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual Task<TEntity?> Get(TKey key, CancellationToken cancellationToken)
+    {
+        return _getHandler.Handle(key, cancellationToken);
     }
 
     /// <summary>
@@ -47,6 +58,17 @@ public class UpdateValidatedHandler<TKey, TUpdateRequest, TEntity>(
     protected virtual void Map(TUpdateRequest request, TEntity existingEntity)
     {
         _typeMapper.Map(request, existingEntity);
+    }
+
+    /// <summary>
+    /// Updates an instance of an entity
+    /// </summary>
+    /// <param name="entity">Entity to update</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken)
+    {
+        return _updateHandler.Handle(new Update<TEntity>(entity), cancellationToken);
     }
 }
 
@@ -77,18 +99,29 @@ public class UpdateValidatedHandler<TKey, TUpdateRequest, TDomain, TEntity>(
     /// <returns></returns>
     public async Task<ValidatedResult<TDomain>> Handle(Update<TKey, TUpdateRequest> request, CancellationToken cancellationToken = default)
     {
-        var existingEntity = await _getEntityHandler.Handle(request.Key, cancellationToken);
+        var existingEntity = await Get(request.Key, cancellationToken);
         var result = new ValidatedResult<TDomain> { IsNotFound = existingEntity == null };
 
         if (!result.IsNotFound)
         {
             Map(request.Domain, existingEntity!);
-            await _updateHandler.Handle(new Update<TEntity>(existingEntity!), cancellationToken);
+            await Update(new Update<TEntity>(existingEntity!), cancellationToken);
 
-            result.Result = await _getDomainHandler.Handle(request.Key, cancellationToken);
+            result.Result = await GetDomain(request.Key, cancellationToken);
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Gets the existing entity instance
+    /// </summary>
+    /// <param name="key">TKey of entity</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual Task<TEntity?> Get(TKey key, CancellationToken cancellationToken)
+    {
+        return _getEntityHandler.Handle(key, cancellationToken);
     }
 
     /// <summary>
@@ -99,5 +132,27 @@ public class UpdateValidatedHandler<TKey, TUpdateRequest, TDomain, TEntity>(
     protected virtual void Map(TUpdateRequest request, TEntity existingEntity)
     {
         _typeMapper.Map(request, existingEntity);
+    }
+
+    /// <summary>
+    /// Updates an instance of an entity
+    /// </summary>
+    /// <param name="entity">Entity to update</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken)
+    {
+        return _updateHandler.Handle(new Update<TEntity>(entity), cancellationToken);
+    }
+
+    /// <summary>
+    /// Gets the existing domain instance
+    /// </summary>
+    /// <param name="key">TKey of domain</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual Task<TDomain?> GetDomain(TKey key, CancellationToken cancellationToken)
+    {
+        return _getDomainHandler.Handle(key, cancellationToken);
     }
 }

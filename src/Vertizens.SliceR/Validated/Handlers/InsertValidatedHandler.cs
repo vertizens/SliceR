@@ -24,7 +24,8 @@ public class InsertValidatedHandler<TInsertRequest, TEntity>(
     /// <returns></returns>
     public async Task<ValidatedResult<TEntity>> Handle(Insert<TInsertRequest> request, CancellationToken cancellationToken = default)
     {
-        return await _handler.Handle(new Insert<TEntity>(Map(request)), cancellationToken);
+        var entity = Map(request);
+        return await Insert(entity, cancellationToken);
     }
 
     /// <summary>
@@ -37,6 +38,17 @@ public class InsertValidatedHandler<TInsertRequest, TEntity>(
         var entity = new TEntity();
         _typeMapper.Map(request, entity);
         return entity;
+    }
+
+    /// <summary>
+    /// Insert entity after mapping
+    /// </summary>
+    /// <param name="entity">Entity to insert</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual async Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken)
+    {
+        return await _handler.Handle(new Insert<TEntity>(entity), cancellationToken);
     }
 }
 
@@ -68,10 +80,11 @@ public class InsertValidatedHandler<TInsertRequest, TDomain, TKey, TEntity>(
     /// <returns></returns>
     public async Task<ValidatedResult<TDomain>> Handle(Insert<TInsertRequest> request, CancellationToken cancellationToken = default)
     {
-        var entityInserted = await _handler.Handle(new Insert<TEntity>(Map(request.Domain)), cancellationToken);
+        var entity = Map(request);
+        var entityInserted = await Insert(entity, cancellationToken);
 
         var key = _entityKeyReader.ReadKey(entityInserted);
-        return (await _getDomainHandler.Handle(key!, cancellationToken))!;
+        return await Get(key, cancellationToken);
     }
 
     /// <summary>
@@ -84,5 +97,27 @@ public class InsertValidatedHandler<TInsertRequest, TDomain, TKey, TEntity>(
         var entity = new TEntity();
         _typeMapper.Map(request, entity);
         return entity;
+    }
+
+    /// <summary>
+    /// Insert entity after mapping
+    /// </summary>
+    /// <param name="entity">Entity to insert</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual async Task<TEntity> Insert(TEntity entity, CancellationToken cancellationToken)
+    {
+        return await _handler.Handle(new Insert<TEntity>(entity), cancellationToken);
+    }
+
+    /// <summary>
+    /// Get the domain instance for the entity key
+    /// </summary>
+    /// <param name="key">key of the domain</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns></returns>
+    protected virtual async Task<TDomain> Get(TKey key, CancellationToken cancellationToken)
+    {
+        return (await _getDomainHandler.Handle(key, cancellationToken))!;
     }
 }
