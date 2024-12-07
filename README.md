@@ -10,7 +10,7 @@ At its heart SliceR is nothing more than a pattern to follow of using the IHandl
 
 This call adds any defined classes you create in the calling assembly that implement `IHandler<Request,Result>` or `IHandler<Request>`.  There are other overloads to be more specific but this is the most likely scenario.
 
-`IHandler<Request,Result>` represents a method call with request/result types you create. Subsequently a void method is modeled as `IHandler<Result>`.  What do we do with methods that don't take in any parameters?  Well because we will be looking in DI for services that implement an interface, what we are looking for has to differentiate itself from other calls that also don't take any input.  So in the vain of CQRS every request needs a type that is combined with any result type to make the IHandler interface unique per 'method call'.
+`IHandler<Request,Result>` represents a method call with request/result types you create. Subsequently a void method is modeled as `IHandler<Request>`.  What do we do with methods that don't take in any parameters?  Well because we will be looking in DI for services that implement an interface, what we are looking for has to differentiate itself from other calls that also don't take any input.  So in the vain of CQRS every request needs a type that is combined with any result type to make the IHandler interface unique per 'method call'.
 
 The good thing is the request/result have no requirements on each other.  So its very open to what you can do but this also means you have to be specific and explicit.
 
@@ -123,4 +123,4 @@ These are default patterns for working with entities and will be more clearly us
 
 ***
 
-Look to SliceR Sample repository for how it all works together.
+Look to SliceR.Samples repository for how it all works together.
